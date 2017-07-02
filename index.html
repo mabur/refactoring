@@ -1,14 +1,46 @@
 <html>
 <head>
+<style>
+summary {color: #016DFF;}
+a {color: #016DFF; text-decoration: none;}
+h1 {
+    font-weight: normal;
+    margin-top:40px}
+h2 {
+    font-weight: normal;
+}
+h3 {
+    font-weight: normal;
+    font-family: "Helvetica Neue", "Helvetica", "Arimo", "Liberation Sans", "Lucida Grande", "sans-serif";
+    margin-top:40px;
+    margin-bottom:0px;
+}
+hr {
+    margin-top:40px;
+    margin-bottom:40px;
+}
+p {
+    font-family: "Helvetica Neue", "Helvetica", "Arimo", "Liberation Sans", "Lucida Grande", "sans-serif";
+}
+details {font-family: "Helvetica Neue", "Helvetica", "Arimo", "Liberation Sans", "Lucida Grande", "sans-serif";}
+}
+
+</style>
 <title>
 Refactoring
 </title>
 </head
 <body>
+<table align=center>
+<tr>
+<td width=600px>
+
 <h1>
 Refactoring
 </h1>
+<p>
 by Magnus Burenius
+</p>
 <p>
 This document describes various <a href="https://en.wikipedia.org/wiki/Code_refactoring">refactorings</a>. A refactoring makes a piece of code easier to read and maintain without changing its behavior. Most refactorings are documented in the book <a href="https://martinfowler.com/books/refactoring.html">Refactoring</a> by Martin Fowler from 1999. That book has an object oriented programming perspective, which was very popular at that time. In this document we try to extend this and give a more general perspective. Besides object oriented programming we are also interested in: precedural programming, functional programming, generic programmin, data oriented programming. We are also interested in topics like: side effects, immutability, higher order functions. We give examples in the multi-paradigm languages C++ and Python. Also C and Java?
 </p>
@@ -17,123 +49,164 @@ We want to have code that is easy to maintain, i.e. to fix bugs and to add new f
 </p>
 
 <h2>Contents</h2>
+
+<details>
+<summary>Checks and Tests</summary>
 <ul>
-<li>
-    <a href="#checks_and_tests">Checks and Tests</a>
-</li>
-<li>
-    <a href="#variables">Variables</a>
-    <ul>
-    <li><a href="#remove_unused_variable">Remove unused variable</a></li>
-    <li><a href="#move_variable">Move variable</a></li>
-    <li><a href="#rename_variable">Rename variable</a></li>
-    <li><a href="#extract_constant_variable">Extract Constant Variable</a></li>
-    <li><a href="#extract_variable">Extract variable</a></li>
-    <li><a href="#split_variable">Split Variable</a></li>
-    </ul>
-</li>
-<li>
-    <a href="#control_structures">Control Structures</a>
-    <ul>
-    <li><a href="#decompose_conditional">Decompose Conditional</a></li>
-    <li><a href="#consolidate_conditional_expression">Consolidate Conditional</a</li>
-    <li><a href="#consolidate_duplicate_conditional_fragment">Consolidate</a></li>
-    <li><a href="#remove_control_flag">Remove Control Flag</a></li>
-    <li><a href="#replace_nested_conditional_with_guard_clauses">Replace nested</a></a>
-    <li><a href="#change_loop_construct">Change loop Construct</a></li>
-    <li><a href="#assignment_in_conditional">Assignment in conditional</a></li>
-    </ul>
-</li>
-<li>
-    <a href="#functions">Functions</a>
-    <ul>
-    <li><a href="#remove_unused_functions">Remove unused function</a></li>
-    <li><a href="#move_functions">Move Function</a></li>
-    <li><a href="#rename_function">Rename function</a></li>
-    <li><a href="#replace_code_with_existing_function">Replace Code With Existing Function</a></li>
-    <li><a href="#replace_duplicated_code_with_function">Replace Duplicated Code with Function</a></li>
-    <li><a href="#extract_function">Extract Function</a></li>
-    <li><a href="#inline_function">Inline Function</a></li>
-    <li><a href="#encapsulate_mutable_variable">Encapsulate Mutable Variable</a></li>
-    <li><a href="#replace_loop_with_algorithm">Replace loop with algorithm</a></li>
-    <li><a href="#substitute_algorithm">Substitute algorithm</a></li>
-    <li><a href="#separate_query_from_modifier">Separate query from modifier</a></li>
-    <li><a href="#parameterize_function">Parameterize Function</a></li>
-    <li><a href="#replace_parameter_with_explicit_function">Replace parameter with explicit functions</a></li>
-    <li><a href="#preserve_whole_object">Preserve whole object</a></li>
-    <li><a href="#hide_function">Hide function</a></li>
-    </ul>
-</li>
-<li>
-    <a href="#types_and_classes">Types and Classes</a>
-    <ul>
-    </ul>
-</li>
-<li>
-    <a href="#file_and_direcotry_structure">File and Directory Structure</a>
-    <ul>
-    </ul>
-</li>
-<li>
-    <a href="#encapsulation">Encapsulation</a>
-    <ul>
-    </ul>
-</li>
-<li>
-    <a href="#scope_based_resource_management">Scope Based Resource Management</a>
-    <ul>
-    </ul>
-</li>
-<li>
-    <a href="#error_handling">Error Handling</a>
-    <ul>
-    </ul>
-</li>
-<li>
-    <a href="#subtype_polymorphism">Subtype Polymorphism</a>
-    <ul>
-    </ul>
-</li>
+<li><a href="#add_compile_time_error_detection">Add compile time error_detection</a></li>
+<li><a href="#add_compile_time_warning">Add compile time warning</a></li>
+<li><a href="#add_static_analysis">Add static analysis</a></li>
+<li><a href="#add_linter">Add linter</a></li>
+<li><a href="#add_stringer_type_check">Add stronger type check</a></li>
+<li><a href="#make_object_immutable">Make object immutable</a></li>
+<li><a href="#add_assertion">Add assertion</a></li>
+<li><a href="#add_bounds_check">Add bounds check</a></li>
+<li><a href="#add_null_pointer_check">Add null pointer check</a></li>
+<li><a href="#add_unit_test">Add unit test</a></li>
+<li><a href="#add_integration_test">Add integration test</a></li>
 </ul>
+</details>
+<details>
+<summary>Variables</summary>
+<ul>
+<li><a href="#remove_unused_variable">Remove unused variable</a></li>
+<li><a href="#move_variable">Move variable</a></li>
+<li><a href="#rename_variable">Rename variable</a></li>
+<li><a href="#extract_constant_variable">Extract Constant Variable</a></li>
+<li><a href="#extract_variable">Extract variable</a></li>
+<li><a href="#split_variable">Split Variable</a></li>
+</ul>
+</details>
+<details>
+<summary>Control Structures</summary>
+<ul>
+<li><a href="#decompose_conditional">Decompose Conditional</a></li>
+<li><a href="#consolidate_conditional_expression">Consolidate Conditional</a</li>
+<li><a href="#consolidate_duplicate_conditional_fragment">Consolidate</a></li>
+<li><a href="#remove_control_flag">Remove Control Flag</a></li>
+<li><a href="#replace_nested_conditional_with_guard_clauses">Replace nested</a></a>
+<li><a href="#change_loop_construct">Change loop Construct</a></li>
+<li><a href="#assignment_in_conditional">Assignment in conditional</a></li>
+</ul>
+</details>
+<details>
+<summary>Functions</summary>
+<ul>
+<li><a href="#remove_unused_functions">Remove unused function</a></li>
+<li><a href="#move_functions">Move Function</a></li>
+<li><a href="#rename_function">Rename function</a></li>
+<li><a href="#replace_code_with_existing_function">Replace Code With Existing Function</a></li>
+<li><a href="#replace_duplicated_code_with_function">Replace Duplicated Code with Function</a></li>
+<li><a href="#extract_function">Extract Function</a></li>
+<li><a href="#inline_function">Inline Function</a></li>
+<li><a href="#encapsulate_mutable_variable">Encapsulate Mutable Variable</a></li>
+<li><a href="#replace_loop_with_algorithm">Replace loop with algorithm</a></li>
+<li><a href="#substitute_algorithm">Substitute algorithm</a></li>
+<li><a href="#separate_query_from_modifier">Separate query from modifier</a></li>
+<li><a href="#parameterize_function">Parameterize Function</a></li>
+<li><a href="#replace_parameter_with_explicit_function">Replace parameter with explicit functions</a></li>
+<li><a href="#preserve_whole_object">Preserve whole object</a></li>
+<li><a href="#hide_function">Hide function</a></li>
+</ul>
+</details>
+<details>
+<summary>Types and Classes</summary>
+<ul>
+<li><a href="#remove_unused_classes">Remove unused class</a></li>
+<li><a href="#move_class">Move class</a></li>
+<li><a href="#rename_class">Rename class</a></li>
+<li><a href="#move_member_variable">Move member variable</a></li>
+<li><a href="#move_function">Move member function</a></li>
+<li><a href="#extract_class">Extract Class</a></li>
+<li><a href="#introuduce_parameter_object">Introduce Parameter Object</a></li>
+<li><a href="#add_type_alias">Add type alias</a></li>
+<li><a href="#reduce_state_space">Reduce state space</a></li>
+<li><a href="#replace_type_code_with_class">Replace type code with class</a></li>
+</ul>
+</details>
+<details>
+<summary>File and Directory Structure</summary>
+<ul>
+<li><a href="#move_file">Move file</a></li>
+<li><a href="#move_directory">Move directory</a></li>
+<li><a href="#rename_file">Rename file</a></li>
+<li><a href="#rename_directory">Rename directory</a></li>
+</ul>
+</details>
+<details>
+<summary>Encapsulation</summary>
+<ul>
+<li><a href="#access_data_via_function">Access data via function</a></li>
+<li><a href="#hide_delegate">Hide Delegate</a></li>
+<li><a href="#remove_middlemand">Remove Middleman</a></li>
+<li><a href="#replace_function_with_function_object">Replace function with function object</a></li>
+<li><a href="#use_constructor">Use constructor</a></li>
+<li><a href="#replace_constructor_with_factory_function">Replace constructor with factory</a></li>
+<li><a href="#use_destructor">Use destructor</a></li>
+</ul>
+</details>
+<details>
+<summary>Scoped Resource Management</summary>
+<ul>
+<li><a href="#scope_based_resource_management">Scoped Resource Management</a></li>
+</ul>
+</details>
+<details>
+<summary>Error Handling</summary>
+<ul>
+<li><a href="#replace_error_code_woth_exception">Replace error code with exception</a></li>
+<li><a href="#replace_exception_with_if_statement">Replace exception with if-statement</a></li>
+</ul>
+</details>
+<details>
+<summary>Subtype Polymorphism</summary>
+<ul>
+<li><a href="#subtype_polymorphism">Subtype Polymorphism</a></li>
+<li><a href="#replace_inheritance_with_composition">Repalce inheritance with composition</a></li>
+<li><a href="#replace_cosntructor_with_factory_function">Replace constructor with factory function</a></li>
+<li><a href="#replace_type_code_with_subclasses">Replace type code with subclasses</a></li>
+<li><a href="#replace_type_code_with_state_strategy">Replace type code with state/strategy</a></li>
+<li><a href="#replace_subclass_with_fields">Replace subclass with fields</a></li>
+<li><a href="#replace_conditional_with_polymorphism">Replace conditional with polymorphism</a></li>
+<li><a href="#introudce_null_object">Introduce null object</a></li>
+</ul>
+</details>
 
 <hr>
 
 <h2 id="checks_and_tests">Checks and Tests</h2>
 
+<p>
 Checks tests and are the foundation for doing other refactorings without introducing bugs. They are used to find errors by the programmer. After each small change that we make we want to quickly be able to run the checks and tests, so that we can find errors as soon as they happen.
+</p>
 
-<h3>Compile Time Checks</h3>
+<h3 id="add_compile_time_error_detection">Add compile time error_detection</h3>
 
-<h4>Add compile time errors</h4>
+<h3 id="add_compile_time_warning">Add compile time warning</h3>
 
-<h4>Add compile time warnings</h4>
+<h3 id="add_static_analysis">Add static analysis</h3>
 
-<h4>Add static analysis</h4>
+<h3 id="add_linter">Add linter</h3>
 
-<h4>Add linter</h4>
-
-<h4>Add stronger type check</h4>
+<h3 id="add_stringer_type_check">Add stronger type check</h3>
+<p>
 Move to section about classes and types?
-
-<h4>Make object immutable</h4>
+</p>
+<h3 id="make_object_immutable">Make object immutable</h3>
+<p>
 Move to section about classes and types?
+</p>
+<h3 id="add_assertion">Add assertion</h3>
 
-<h3>Run Time Checks</h3>
+<h3 id="add_bounds_check">Add bounds check</h3>
 
-<h4>Add assertion</h4>
-
-<h4>Add bounds check</h4>
-
-<h4>Add null pointer check</h4>
+<h3 id="add_null_pointer_check">Add null pointer check</h3>
+<p>
 Can also use references in C++ to avoid this problem completely.
+</p>
+<h3 id="add_unit_test">Add unit test</h3>
 
-<h3>Tests</h3>
-
-<h4>Add unit test</h4>
-
-<h4>Add integration test</h4>
-
-<h4>Add end-to-end test</h4>
+<h3 id="add_integration_test">Add integration test</h3>
 
 <hr>
 
@@ -142,42 +215,25 @@ Can also use references in C++ to avoid this problem completely.
 <p>
 Variables are the fundamental building blocks of code. The following refactorings can be used to make the code more readable.
 </p>
-<h4 id="remove_unused_variable">Remove unused variable</h4>
+<h3 id="remove_unused_variable">Remove unused variable</h3>
 <p>
 </p>
-<h4 id="move_variable">Move variable</h4>
+<h3 id="move_variable">Move variable</h3>
 <p>
 Is easier if the variable itself, and the other variables that it is computed from, are all immutable.
 </p>
-<h4 id="rename_variable">Rename variable</h4>
+<h3 id="rename_variable">Rename variable</h3>
 <p>
 </p>
-<h4 id="extract_constant_variable">Extract Constant Variable</h4>
+<h3 id="extract_constant_variable">Extract Constant Variable</h3>
 <p>
 The same constant value appears at multiple places. Extract a constant variable and re-use it. Give it a good name. This reduces duplication.
-<details>
-<summary>Example in C++</summary>
-Before:
-<pre>
-int main()
-{
-   const auto a = 5.0;
-}
-</pre>
-After:
-<pre>
-int main()
-{
-   const auto a = 5.0;
-}
-</pre>
-</details>
 </p>
-<h4 id="extract_variable">Extract variable</h4>
+<h3 id="extract_variable">Extract variable</h3>
 <p>
 (Introduce explaining variable). (Opposite is inline temp). Break down an expression into smaller pieces and give each piece a descriptive name. Sometimes we instead want to do the reverse refeactoring, i.e. to inline a temporary variable.
 </p>
-<h4 id="split_variable">Split Variable</h4>
+<h3 id="split_variable">Split Variable</h3>
 <p>
 A temporary variable is assigned to more than once, and it is not a loop variable. Then make a new temporary variable for each assignment and make the variables immutable. Give each variable a descriptive name. The reverse refactoring could be used for optimizing memory usage for large objects.
 </p>
@@ -189,31 +245,31 @@ A temporary variable is assigned to more than once, and it is not a loop variabl
 <p>
 Control structures like: if, switch, for, while are often a source of complexity. The complexity is due to branching and mutable state. The following refactorings can be used to simplify such control structures.
 </p>
-<h4 id="decompose_conditional">Decompose Conditional</h4>
+<h3 id="decompose_conditional">Decompose Conditional</h3>
 <p>
 Apply extract variable or extract function to a condition. Name the variable or function so that the meaning of the condition is clear.
 </p>
-<h4 id="consolidate_conditional_expression">Consolidate Conditional Expression</h4>
+<h3 id="consolidate_conditional_expression">Consolidate Conditional Expression</h3>
 <p>
 Combine multiple if-statements to a single if-statement. Often a first step before  extracting a function.
 </p>
-<h4 id="consolidate_duplicate_conditional_fragment">Consolidate Duplicate Conditional Fragment</h4>
+<h3 id="consolidate_duplicate_conditional_fragment">Consolidate Duplicate Conditional Fragment</h3>
 <p>
 If multiple branches contain the same expression then move it outside.
 </p>
-<h4 id="remove_control_flag">Remove Control Flag</h4>
+<h3 id="remove_control_flag">Remove Control Flag</h3>
 <p>
 Instead use continue, break or return. Removes a mutable variable. Might need to extract function first to be able to call return instead.
 </p>
-<h4 id="replace_nested_conditional_with_guard_clauses">Replace nested conditional with guard clauses</h4>
+<h3 id="replace_nested_conditional_with_guard_clauses">Replace nested conditional with guard clauses</h3>
 <p>
 Use return. Might need to extract function first.
 </p>
-<h4 id="change_loop_construct">Change loop Construct</h4>
+<h3 id="change_loop_construct">Change loop Construct</h3>
 <p>
 There are different kind of loop constructs in different languages. Some are more suitable than others for different tasks.
 </p>
-<h4 id="assignment_in_conditional">Assignment in conditional</h4>
+<h3 id="assignment_in_conditional">Assignment in conditional</h3>
 <p>
 A normal pattern is that we first initialize a mutable variable and then mutate it inside an if-statement. We can make the variable immutable if we extract a function for this computation. Many languages also support an alternative for assignment based on if-statements.
 </p>
@@ -224,57 +280,57 @@ A normal pattern is that we first initialize a mutable variable and then mutate 
 <p>
 We use functions to reduce code duplication and to group instructions that belong together. We can use the following refactorings if a function is too long or hard to understand for some other reason.
 </p>
-<h4 id="remove_unused_functions">Remove unused function</h4>
+<h3 id="remove_unused_functions">Remove unused function</h3>
 <p>
-<h4 id="move_functions">Move Function</h4>
+<h3 id="move_functions">Move Function</h3>
 <p>
 (Move method). Move a free function to another file and/or another namespace. Move a member function or method to another class.
 </p>
-<h4 id="rename_function">Rename function</h4>
+<h3 id="rename_function">Rename function</h3>
 <p>
 </p>
-<h4 id="replace_code_with_existing_function">Replace Code With Existing Function</h4>
+<h3 id="replace_code_with_existing_function">Replace Code With Existing Function</h3>
 <p>
 </p>
-<h4 id="replace_duplicated_code_with_function">Replace Duplicated Code with Function</h4>
+<h3 id="replace_duplicated_code_with_function">Replace Duplicated Code with Function</h3>
 <p>
 </p>
-<h4 id="extract_function">Extract Function</h4>
+<h3 id="extract_function">Extract Function</h3>
 <p>
 (Extract method) The same set of expressions appear at multiple places. Extract a function and re-use it. This reduces duplication. We alos extract functions for other reasons
 </p>
-<h4 id="inline_function">Inline Function</h4>
+<h3 id="inline_function">Inline Function</h3>
 <p>
 (Inline method).
 </p>
-<h4 id="encapsulate_mutable_variable">Encapsulate Mutable Variable</h4>
+<h3 id="encapsulate_mutable_variable">Encapsulate Mutable Variable</h3>
 <p>
 A special case of extract function. An if-statement or loop is used to assign the value to some variable. The variable is therefore mutable. If we extract this to a function then the variable can be immutable and assigned to the output of the new function.
 </p>
-<h4 id="replace_loop_with_algorithm">Replace loop with algorithm</h4>
+<h3 id="replace_loop_with_algorithm">Replace loop with algorithm</h3>
 <p>
 A special case of extract function and encapsulate mutable variable. Replace a loop with an existing algorithm or higher order function. This ancapsulates mutable state for both the looping variable and sometimes also for the output variable. Transform, map, reduce, fold, accumulate, sum, any of, all of, none of, min, max, min element, max element.
 </p>
-<h4 id="substitute_algorithm">Substitute algorithm</h4>
+<h3 id="substitute_algorithm">Substitute algorithm</h3>
 <p>
 </p>
-<h4 id="separate_query_from_modifier">Separate query from modifier</h4>
+<h3 id="separate_query_from_modifier">Separate query from modifier</h3>
 <p>
 A function both retrieves an object and mutate its state. Seperate this into two different functions. The first works on immutable objects. The second can be marked as something that mutates the object.
 </p>
-<h4 id="parameterize_function">Parameterize Function</h4>
+<h3 id="parameterize_function">Parameterize Function</h3>
 <p>
 (Parameterize method). Replace several functions that do almost the same thing, with a single function that takes an extra argument that describes the difference. This reduces duplication.
 </p>
-<h4 id="replace_parameter_with_explicit_function">Replace parameter with explicit functions</h4>
+<h3 id="replace_parameter_with_explicit_function">Replace parameter with explicit functions</h3>
 <p>
 (Replace parameter with explicit methods). The reverse of parameterize function.
 </p>
-<h4 id="preserve_whole_object">Preserve whole object</h4>
+<h3 id="preserve_whole_object">Preserve whole object</h3>
 <p>
 When you are getting several values from an object and passing these values as parameters in a function call. Instead you can pass the whole object.
 </p>
-<h4 id="hide_function">Hide function</h4>
+<h3 id="hide_function">Hide function</h3>
 <p>
 (Hide method) Make a member function private or hide a free function in the implementation source file.
 </p>
@@ -285,40 +341,40 @@ When you are getting several values from an object and passing these values as p
 <p>
 We use types and classes to group data that belong together. In object oriented programming we can also use classes to group the actions that we perform on objects. Object oriented programming is discussed more in later sections.
 </p> 
-<h4>Remove unused class</h4>
+<h3 id="remove_unused_classes">Remove unused class</h3>
 <p>
 </p>
-<h4>Move class</h4>
+<h3 id="move_class">Move class</h3>
 <p>
 </p>
-<h4>Rename class</h4>
+<h3 id="rename_class">Rename class</h3>
 <p>
 </p>
-<h4>Move member variable</h4>
+<h3 id="move_member_variable">Move member variable</h3>
 <p>
 (Move field) Move a member variable or field from one class to another.
 </p>
-<h4>Move member function</h4>
+<h3 id="move_function">Move member function</h3>
 <p>
 (Move method) Move a member function or method from one class to another.
 </p>
-<h4>Extract Class</h4>
+<h3 id="extract_class">Extract Class</h3>
 <p>
 The same set of variables appear at multiple places. Extract a class, with the corresponding variables as member variables, and re-use it. This reduces duplication. The opposite, i.e. to inline a class is also useful.
 </p>
-<h4>Introduce Parameter Object</h4>
+<h3 id="introuduce_parameter_object">Introduce Parameter Object</h3>
 <p>
 Extract a class to reduce the size of parameters lists.
 </p>
-<h4>Add type alias</h4>
+<h3 id="add_type_alias">Add type alias</h3>
 <p>
 Typedef. With a good name that makes the code easier to read. It also makes it easier to change the type if we would want to do that.
 </p>
-<h4>Reduce state space</h4>
+<h3 id="reduce_state_space">Reduce state space</h3>
 <p>
 Change the definition of the class so that fewer, if any, invalid states are possible to represent. This simplifies updating of objects since we don't need complicated setting functions to make sure that the object does not get into an invalid state. This way we can turn run-time tests to compile-time checks.
 </p>
-<h4>Replace type code with class</h4>
+<h3 id="replace_type_code_with_class">Replace type code with class</h3>
 <p>
 A special case of Reduce state space.
 </p>
@@ -330,13 +386,13 @@ A special case of Reduce state space.
 <p>
 We us files and directories to group code (variables, functions, classes) that belong together, on a higher level.
 </p>
-<h4>Move file</h4>
+<h3 id="move_file">Move file</h3>
 
-<h4>Move directory</h4>
+<h3 id="move_directory">Move directory</h3>
 
-<h4>Rename file</h4>
+<h3 id="rename_file">Rename file</h3>
 
-<h4>Rename directory</h4>
+<h3 id="rename_directory">Rename directory</h3>
 
 <hr>
 
@@ -347,31 +403,31 @@ In object oriented programming we use member functions or methods to read and wr
 <p>
 In object oriented programming we use constructors and destructors to make sure that the object is initialized properly and shut down properly.
 </p>
-<h4>Access data via function</h4>
+<h3 id="access_data_via_function">Access data via function</h3>
 <p>
 Use a function or method to access the data stored in an object. This is useful if the data has some invariance. It is also useful if we want to hide the data representation so that we depend less on it. If we depend less on it then it is easier to change the actual representation. This is a useful for refactoring for carrying out other refactorings.
 </p>
-<h4>Hide Delegate</h4>
+<h3 id="hide_delegate">Hide Delegate</h3>
 <p>
 This is useful for procedural and data oriented programming also. Useful tool when doing other refactorings also. The main idea is object oriented, even if it can be nicely implemented with free functions.
 </p>
-<h4>Remove Middleman</h4>
+<h3 id="remove_middlemand">Remove Middleman</h3>
 <p>
 This is useful for procedural and data oriented programming also. Useful tool when doing other refactorings also. The main idea is object oriented, even if it can be nicely implemented with free functions.
 </p>
-<h4>Replace function with function object.</h4>
+<h3 id="replace_function_with_function_object">Replace function with function object</h3>
 <p>
 (Replace method with method object.) An object oriented refactoring that can be used to break down a large function, that is otherwise hard to break down.
 </p>
-<h4>Use constructor</h4>
+<h3 id="use_constructor">Use constructor</h3>
 <p>
 Works in C. 
 </p>
-<h4>Replace constructor with factory function</h4>
+<h3 id="replace_constructor_with_factory_function">Replace constructor with factory function</h3>
 <p>
 (Replace constructor with factory method) Without polymorphism.
 </p>
-<h4>Use destructor</h4>
+<h3 id="use_destructor">Use destructor</h3>
 <p>
 Partly works in C. Can have a function that works as a desctructor, but it will not be called automatically. Can forget to call it, especially when errors happen.
 </p>
@@ -388,11 +444,11 @@ Allocate and free resources using RAAI or context managers. Memory, files, conne
 
 <h2 id="error_handling">Error Handling</h2>
 
-<h4>Replace error code with exception</h4>
+<h3 id="replace_error_code_woth_exception">Replace error code with exception</h3>
 <p>
 Make the normal flow more clear. Simplifies resource management.
 </p>
-<h4>Replace exception with if-statement</h4>
+<h3 id="replace_exception_with_if_statement">Replace exception with if-statement</h3>
 <p>
 (Replace exception with test) 
 </p>
@@ -403,25 +459,31 @@ Make the normal flow more clear. Simplifies resource management.
 <p>
 Using inheritance to define an interface and have different classes that implements it in different ways.
 </p>
-<h4>Replace constructor with factory function</h4>
+<h3 id="replace_inheritance_with_composition">Repalce inheritance with composition</h3>
+<p>
+</p>
+<h3 id="replace_cosntructor_with_factory_function">Replace constructor with factory function</h3>
 <p>
 (Replace constructor with factory method) With polymorphism.
 </p>
-<h4>Replace type code with subclasses</h4>
+<h3 id="replace_type_code_with_subclasses">Replace type code with subclasses</h3>
 <p>
 </p>
-<h4>Replace type code with state/strategy</h4>
+<h3 id="replace_type_code_with_state_strategy">Replace type code with state/strategy</h3>
 <p>
 </p>
-<h4>Replace subclass with fields</h4>
+<h3 id="replace_subclass_with_fields">Replace subclass with fields</h3>
 <p>
 </p>
-<h4>Replace conditional with polymorphism</h4>
+<h3 id="replace_conditional_with_polymorphism">Replace conditional with polymorphism</h3>
 <p>
 </p>
-<h4>Introduce null object</h4>
+<h3 id="introudce_null_object">Introduce null object</h3>
 <p>
 </p>
 
+</td>
+</tr>
+</table>
 </body>
 </html>
