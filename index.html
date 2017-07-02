@@ -1,7 +1,344 @@
 <html>
 <head>
+<title>
+Refactoring
+</title>
 </head
 <body>
-Hej hej
+<h1>
+Refactoring
+</h1>
+by Magnus Burenius
+<p>
+This document describes various <a href="https://en.wikipedia.org/wiki/Code_refactoring">refactorings</a>. A refactoring makes a piece of code easier to read and maintain without changing its behavior. Most refactorings are documented in the book <a href="https://martinfowler.com/books/refactoring.html">Refactoring</a> by Martin Fowler from 1999. That book has an object oriented programming perspective, which was very popular at that time. In this document we try to extend this and give a more general perspective. Besides object oriented programming we are also interested in: precedural programming, functional programming, generic programmin, data oriented programming. We are also interested in topics like: side effects, immutability, higher order functions. We give examples in the multi-paradigm languages C++ and Python. Also C and Java?
+</p>
+<p>
+We want to have code that is easy to maintain, i.e. to fix bugs and to add new features. We want to reduce duplication. We want immutability and we do not want side effects. We want to find errors early: 1 when compiling or linting, 2 in automatic tests. Mention asserts and exceptions.
+</p>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#checks_and_tests">Checks and Tests</a></li>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#control_structures">Control Structures</a></li>
+<li><a href="#types_and_classes">Types and Classes</a></li>
+<li><a href="#file_and_direcotry_structure">File and Directory Structure</a></li>
+<li><a href="#encapsulation">Encapsulation</a></li>
+<li><a href="#scope_based_resource_management">Scope Based Resource Management</a></li>
+<li><a href="#error_handling">Error Handling</a></li>
+<li><a href="#subtype_polymorphism">Subtype Polymorphism</a></li>
+</ul>
+
+<hr>
+
+<h2 id="checks_and_tests">Checks and Tests</h2>
+
+Checks tests and are the foundation for doing other refactorings without introducing bugs. They are used to find errors by the programmer. After each small change that we make we want to quickly be able to run the checks and tests, so that we can find errors as soon as they happen.
+
+<h3>Compile Time Checks</h3>
+
+<h4>Add compile time errors</h4>
+<h4>Add compile time errors</h4>
+
+<h4>Add compile time warnings</h4>
+
+<h4>Add static analysis</h4>
+
+<h4>Add linter</h4>
+
+<h4>Add stronger type check</h4>
+Move to section about classes and types?
+
+<h4>Make object immutable</h4>
+Move to section about classes and types?
+
+<h3>Run Time Checks</h3>
+
+<h4>Add assertion</h4>
+
+<h4>Add bounds check</h4>
+
+<h4>Add null pointer check</h4>
+Can also use references in C++ to avoid this problem completely.
+
+<h3>Tests</h3>
+
+<h4>Add unit test</h4>
+
+<h4>Add integration test</h4>
+
+<h4>Add end-to-end test</h4>
+
+<hr>
+
+<h2 id="variables">Variables</h2>
+
+<p>
+Variables are the fundamental building blocks of code. The following refactorings can be used to make the code more readable.
+</p>
+<h4>Remove unused variable</h4>
+<p>
+</p>
+<h4>Move variable</h4>
+<p>
+Is easier if the variable itself, and the other variables that it is computed from, are all immutable.
+</p>
+<h4>Rename variable</h4>
+<p>
+</p>
+<h4>Extract Constant Variable</h4>
+<p>
+The same constant value appears at multiple places. Extract a constant variable and re-use it. Give it a good name. This reduces duplication.
+</p>
+<h4>Extract variable</h4>
+<p>
+(Introduce explaining variable). (Opposite is inline temp). Break down an expression into smaller pieces and give each piece a descriptive name. Sometimes we instead want to do the reverse refeactoring, i.e. to inline a temporary variable.
+</p>
+<h4>Split Variable</h4>
+<p>
+A temporary variable is assigned to more than once, and it is not a loop variable. Then make a new temporary variable for each assignment and make the variables immutable. Give each variable a descriptive name. The reverse refactoring could be used for optimizing memory usage for large objects.
+</p>
+
+<hr>
+
+<h2 id="control_structures">Control Structures</h2>
+
+<p>
+Control structures like: if, switch, for, while are often a source of complexity. The complexity is due to branching and mutable state. The following refactorings can be used to simplify such control structures.
+</p>
+<h4>Decompose Conditional</h4>
+<p>
+Apply extract variable or extract function to a condition. Name the variable or function so that the meaning of the condition is clear.
+</p>
+<h4>Consolidate Conditional Expression</h4>
+<p>
+Combine multiple if-statements to a single if-statement. Often a first step before  extracting a function.
+</p>
+<h4>Consolidate Duplicate Conditional Fragment</h4>
+<p>
+If multiple branches contain the same expression then move it outside.
+</p>
+<h4>Remove Control Flag</h4>
+<p>
+Instead use continue, break or return. Removes a mutable variable. Might need to extract function first to be able to call return instead.
+</p>
+<h4>Replace nested conditional with guard clauses</h4>
+<p>
+Use return. Might need to extract function first.
+</p>
+<h4>Change loop Construct</h4>
+<p>
+There are different kind of loop constructs in different languages. Some are more suitable than others for different tasks.
+</p>
+<h4>Assignment in conditional</h4>
+<p>
+A normal pattern is that we first initialize a mutable variable and then mutate it inside an if-statement. We can make the variable immutable if we extract a function for this computation. Many languages also support an alternative for assignment based on if-statements.
+</p>
+
+<hr>
+
+<h2 id="functions">Functions</h2>
+<p>
+We use functions to reduce code duplication and to group instructions that belong together. We can use the following refactorings if a function is too long or hard to understand for some other reason.
+</p>
+<h4>Remove unused function</h4>
+<p>
+<h4>Move Function</h4>
+<p>
+(Move method). Move a free function to another file and/or another namespace. Move a member function or method to another class.
+</p>
+<h4>Rename function</h4>
+<p>
+</p>
+<h4>Replace Code With Existing Function</h4>
+<p>
+</p>
+<h4>Replace Duplicated Code with Function</h4>
+<p>
+</p>
+<h4>Extract Function</h4>
+<p>
+(Extract method) The same set of expressions appear at multiple places. Extract a function and re-use it. This reduces duplication. We alos extract functions for other reasons
+</p>
+<h4>Inline Function</h4>
+<p>
+(Inline method).
+</p>
+<h4>Encapsulate Mutable Variable</h4>
+<p>
+A special case of extract function. An if-statement or loop is used to assign the value to some variable. The variable is therefore mutable. If we extract this to a function then the variable can be immutable and assigned to the output of the new function.
+</p>
+<h4>Replace loop with algorithm</h4>
+<p>
+A special case of extract function and encapsulate mutable variable. Replace a loop with an existing algorithm or higher order function. This ancapsulates mutable state for both the looping variable and sometimes also for the output variable. Transform, map, reduce, fold, accumulate, sum, any of, all of, none of, min, max, min element, max element.
+</p>
+<h4>Substitute algorithm</h4>
+<p>
+</p>
+<h4>Separate query from modifier</h4>
+<p>
+A function both retrieves an object and mutate its state. Seperate this into two different functions. The first works on immutable objects. The second can be marked as something that mutates the object.
+</p>
+<h4>Parameterize Function</h4>
+<p>
+(Parameterize method). Replace several functions that do almost the same thing, with a single function that takes an extra argument that describes the difference. This reduces duplication.
+</p>
+<h4>Replace parameter with explicit functions</h4>
+<p>
+(Replace parameter with explicit methods). The reverse of parameterize function.
+</p>
+<h4>Preserve whole object</h4>
+<p>
+When you are getting several values from an object and passing these values as parameters in a function call. Instead you can pass the whole object.
+</p>
+<h4>Hide function</h4>
+<p>
+(Hide method) Make a member function private or hide a free function in the implementation source file.
+</p>
+<hr>
+
+<h2 id="types_and_classes">Types and Classes</h2>
+
+<p>
+We use types and classes to group data that belong together. In object oriented programming we can also use classes to group the actions that we perform on objects. Object oriented programming is discussed more in later sections.
+</p> 
+<h4>Remove unused class</h4>
+<p>
+</p>
+<h4>Move class</h4>
+<p>
+</p>
+<h4>Rename class</h4>
+<p>
+</p>
+<h4>Move member variable</h4>
+<p>
+(Move field) Move a member variable or field from one class to another.
+</p>
+<h4>Move member function</h4>
+<p>
+(Move method) Move a member function or method from one class to another.
+</p>
+<h4>Extract Class</h4>
+<p>
+The same set of variables appear at multiple places. Extract a class, with the corresponding variables as member variables, and re-use it. This reduces duplication. The opposite, i.e. to inline a class is also useful.
+</p>
+<h4>Introduce Parameter Object</h4>
+<p>
+Extract a class to reduce the size of parameters lists.
+</p>
+<h4>Add type alias</h4>
+<p>
+Typedef. With a good name that makes the code easier to read. It also makes it easier to change the type if we would want to do that.
+</p>
+<h4>Reduce state space</h4>
+<p>
+Change the definition of the class so that fewer, if any, invalid states are possible to represent. This simplifies updating of objects since we don't need complicated setting functions to make sure that the object does not get into an invalid state. This way we can turn run-time tests to compile-time checks.
+</p>
+<h4>Replace type code with class</h4>
+<p>
+A special case of Reduce state space.
+</p>
+
+<hr>
+
+<h2 id="file_and_direcotry_structure">File and Directory Structure</h2>
+
+<p>
+We us files and directories to group code (variables, functions, classes) that belong together, on a higher level.
+</p>
+<h4>Move file</h4>
+
+<h4>Move directory</h4>
+
+<h4>Rename file</h4>
+
+<h4>Rename directory</h4>
+
+<hr>
+
+<h2 id="encapsulation">Encapsulation</h2>
+<p>
+In object oriented programming we use member functions or methods to read and write to an object, instead of reading and writing to the member variables or fields directly. This can be used to hide implementation details of the object and the state it represents. This aspect of object oriented programming also works well in procedural languages like C.
+</p>
+<p>
+In object oriented programming we use constructors and destructors to make sure that the object is initialized properly and shut down properly.
+</p>
+<h4>Access data via function</h4>
+<p>
+Use a function or method to access the data stored in an object. This is useful if the data has some invariance. It is also useful if we want to hide the data representation so that we depend less on it. If we depend less on it then it is easier to change the actual representation. This is a useful for refactoring for carrying out other refactorings.
+</p>
+<h4>Hide Delegate</h4>
+<p>
+This is useful for procedural and data oriented programming also. Useful tool when doing other refactorings also. The main idea is object oriented, even if it can be nicely implemented with free functions.
+</p>
+<h4>Remove Middleman</h4>
+<p>
+This is useful for procedural and data oriented programming also. Useful tool when doing other refactorings also. The main idea is object oriented, even if it can be nicely implemented with free functions.
+</p>
+<h4>Replace function with function object.</h4>
+<p>
+(Replace method with method object.) An object oriented refactoring that can be used to break down a large function, that is otherwise hard to break down.
+</p>
+<h4>Use constructor</h4>
+<p>
+Works in C. 
+</p>
+<h4>Replace constructor with factory function</h4>
+<p>
+(Replace constructor with factory method) Without polymorphism.
+</p>
+<h4>Use destructor</h4>
+<p>
+Partly works in C. Can have a function that works as a desctructor, but it will not be called automatically. Can forget to call it, especially when errors happen.
+</p>
+
+<hr>
+
+<h2 id="scope_based_resource_management">Scope Based Resource Management</h2>
+
+<p>
+Allocate and free resources using RAAI or context managers. Memory, files, connections.
+</p>
+
+<hr>
+
+<h2 id="error_handling">Error Handling</h2>
+
+<h4>Replace error code with exception</h4>
+<p>
+Make the normal flow more clear. Simplifies resource management.
+</p>
+<h4>Replace exception with if-statement</h4>
+<p>
+(Replace exception with test) 
+</p>
+
+<hr>
+
+<h2 id="subtype_polymorphism">Subtype Polymorphism</h2>
+<p>
+Using inheritance to define an interface and have different classes that implements it in different ways.
+</p>
+<h4>Replace constructor with factory function</h4>
+<p>
+(Replace constructor with factory method) With polymorphism.
+</p>
+<h4>Replace type code with subclasses</h4>
+<p>
+</p>
+<h4>Replace type code with state/strategy</h4>
+<p>
+</p>
+<h4>Replace subclass with fields</h4>
+<p>
+</p>
+<h4>Replace conditional with polymorphism</h4>
+<p>
+</p>
+<h4>Introduce null object</h4>
+<p>
+</p>
+
 </body>
 </html>
