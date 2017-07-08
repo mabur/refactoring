@@ -1,0 +1,284 @@
+ **Refactoring**
+ by Magnus Burenius
+
+This document describes various <a href="https://en.wikipedia.org/wiki/Code_refactoring">refactorings</a>. A refactoring makes a piece of code easier to read and maintain without changing its behavior. Most refactorings are documented in the book <a href="https://martinfowler.com/books/refactoring.html">Refactoring</a> by Martin Fowler from 1999. That book has an object oriented programming perspective, which was very popular at that time. In this document we try to extend this and give a more general perspective. Besides object oriented programming we are also interested in: procedural programming, functional programming, generic programmin, data oriented programming. We are also interested in topics like: side effects, immutability, higher order functions. We give examples in the multi-paradigm languages C++ and Python. Also C and Java?
+
+We want to have code that is easy to maintain, i.e. to fix bugs and to add new features. We want to reduce duplication. We want immutability and we do not want side effects. We want to find errors early: 1 when compiling or linting, 2 in automatic tests. Mention asserts and exceptions.
+
+
+# Checks and Tests
+
+Checks tests and are the foundation for doing other refactorings without introducing bugs. They are used to find errors by the programmer. After each small change that we make we want to quickly be able to run the checks and tests, so that we can find errors as soon as they happen.
+
+## Add compile time error_detection
+
+## Add compile time warning
+
+## Add static analysis
+
+## Add linter
+
+## Add stronger type check
+
+Move to section about classes and types?
+
+## Make object immutable
+
+Move to section about classes and types?
+
+## Add assertion
+
+## Add bounds check
+
+## Add null pointer check
+
+Can also use references in C++ to avoid this problem completely.
+
+## Add unit test
+
+## Add integration test
+
+# Variables
+
+Variables are the fundamental building blocks of code. The following refactorings can be used to make the code more readable.
+
+## Remove unused variable
+
+
+## Move variable
+
+Is easier if the variable itself, and the other variables that it is computed from, are all immutable.
+
+## Rename variable
+
+
+## Extract Constant Variable
+
+The same constant value appears at multiple places. Extract a constant variable and re-use it. Give it a good name. This reduces duplication.
+
+## Extract variable
+
+(Introduce explaining variable). (Opposite is inline temp). Break down an expression into smaller pieces and give each piece a descriptive name. Sometimes we instead want to do the reverse refeactoring, i.e. to inline a temporary variable.
+
+## Split Variable
+
+A temporary variable is assigned to more than once, and it is not a loop variable. Then make a new temporary variable for each assignment and make the variables immutable. Give each variable a descriptive name. The reverse refactoring could be used for optimizing memory usage for large objects.
+
+
+# Control Structures
+
+Control structures like: if, switch, for, while are often a source of complexity. The complexity is due to branching and mutable state. The following refactorings can be used to simplify such control structures.
+
+## Decompose Conditional
+
+Apply extract variable or extract function to a condition. Name the variable or function so that the meaning of the condition is clear.
+
+## Consolidate Conditional Expression
+
+Combine multiple if-statements to a single if-statement. Often a first step before  extracting a function.
+
+## Consolidate Duplicate Conditional Fragment
+
+If multiple branches contain the same expression then move it outside.
+
+## Remove Control Flag
+
+Instead use continue, break or return. Removes a mutable variable. Might need to extract function first to be able to call return instead.
+
+## Replace nested conditional with guard clauses
+
+Use return. Might need to extract function first.
+
+## Change loop Construct
+
+There are different kind of loop constructs in different languages. Some are more suitable than others for different tasks.
+
+## Assignment in conditional
+
+A normal pattern is that we first initialize a mutable variable and then mutate it inside an if-statement. We can make the variable immutable if we extract a function for this computation. Many languages also support an alternative for assignment based on if-statements.
+
+
+# Functions
+
+We use functions to reduce code duplication and to group instructions that belong together. We can use the following refactorings if a function is too long or hard to understand for some other reason.
+
+## Remove unused function
+
+## Move Function
+
+(Move method). Move a free function to another file and/or another namespace. Move a member function or method to another class.
+
+## Rename function
+
+## Replace Code With Existing Function
+
+## Replace Duplicated Code with Function
+
+## Extract Function
+
+(Extract method) The same set of expressions appear at multiple places. Extract a function and re-use it. This reduces duplication. We alos extract functions for other reasons
+
+## Inline Function
+
+(Inline method).
+
+## Encapsulate Mutable Variable
+
+A special case of extract function. An if-statement or loop is used to assign the value to some variable. The variable is therefore mutable. If we extract this to a function then the variable can be immutable and assigned to the output of the new function.
+
+## Replace loop with algorithm
+
+A special case of extract function and encapsulate mutable variable. Replace a loop with an existing algorithm or higher order function. This ancapsulates mutable state for both the looping variable and sometimes also for the output variable. Transform, map, reduce, fold, accumulate, sum, any of, all of, none of, min, max, min element, max element.
+
+## Substitute algorithm
+
+
+## Separate query from modifier
+
+A function both retrieves an object and mutate its state. Seperate this into two different functions. The first works on immutable objects. The second can be marked as something that mutates the object.
+
+## Parameterize Function
+
+(Parameterize method). Replace several functions that do almost the same thing, with a single function that takes an extra argument that describes the difference. This reduces duplication.
+
+## Replace parameter with explicit functions
+
+(Replace parameter with explicit methods). The reverse of parameterize function.
+
+## Preserve whole object
+
+When you are getting several values from an object and passing these values as parameters in a function call. Instead you can pass the whole object.
+
+## Hide function
+
+(Hide method) Make a member function private or hide a free function in the implementation source file.
+
+
+# Types and Classes
+
+We use types and classes to group data that belong together. In object oriented programming we can also use classes to group the actions that we perform on objects. Object oriented programming is discussed more in later sections.
+ 
+## Remove unused class
+
+## Move class
+
+## Rename class
+
+## Move member variable
+
+(Move field) Move a member variable or field from one class to another.
+
+## Move member function
+
+(Move method) Move a member function or method from one class to another.
+
+## Extract Class
+
+The same set of variables appear at multiple places. Extract a class, with the corresponding variables as member variables, and re-use it. This reduces duplication. The opposite, i.e. to inline a class is also useful.
+
+## Introduce Parameter Object
+
+Extract a class to reduce the size of parameters lists.
+
+## Add type alias
+
+Typedef. With a good name that makes the code easier to read. It also makes it easier to change the type if we would want to do that.
+
+## Reduce state space
+
+Change the definition of the class so that fewer, if any, invalid states are possible to represent. This simplifies updating of objects since we don't need complicated setting functions to make sure that the object does not get into an invalid state. This way we can turn run-time tests to compile-time checks.
+
+## Replace type code with class
+
+A special case of Reduce state space.
+
+
+# File and Directory Structure
+
+We us files and directories to group code (variables, functions, classes) that belong together, on a higher level.
+
+## Move file
+
+## Move directory
+
+## Rename file
+
+## Rename directory
+
+# Encapsulation
+
+In object oriented programming we use member functions or methods to read and write to an object, instead of reading and writing to the member variables or fields directly. This can be used to hide implementation details of the object and the state it represents. This aspect of object oriented programming also works well in procedural languages like C.
+
+
+In object oriented programming we use constructors and destructors to make sure that the object is initialized properly and shut down properly.
+
+## Access data via function
+
+Use a function or method to access the data stored in an object. This is useful if the data has some invariance. It is also useful if we want to hide the data representation so that we depend less on it. If we depend less on it then it is easier to change the actual representation. This is a useful for refactoring for carrying out other refactorings.
+
+## Hide Delegate
+
+This is useful for procedural and data oriented programming also. Useful tool when doing other refactorings also. The main idea is object oriented, even if it can be nicely implemented with free functions.
+
+## Remove Middleman
+
+This is useful for procedural and data oriented programming also. Useful tool when doing other refactorings also. The main idea is object oriented, even if it can be nicely implemented with free functions.
+
+## Replace function with function object
+
+(Replace method with method object.) An object oriented refactoring that can be used to break down a large function, that is otherwise hard to break down.
+
+## Use constructor
+
+Works in C. 
+
+## Replace constructor with factory function
+
+(Replace constructor with factory method) Without polymorphism.
+
+## Use destructor
+
+Partly works in C. Can have a function that works as a desctructor, but it will not be called automatically. Can forget to call it, especially when errors happen.
+
+
+# Scope Based Resource Management
+
+Allocate and free resources using RAAI or context managers. Memory, files, connections.
+
+## Error Handling</h2>
+
+## Replace error code with exception
+
+Make the normal flow more clear. Simplifies resource management.
+
+## Replace exception with if-statement
+
+(Replace exception with test) 
+
+
+# Inheritance
+
+We can use inheritance to define an interface and have different classes that implements it in different ways. This is also called subtype polymorphism.
+
+## Repalce inheritance with composition
+
+
+## Replace constructor with factory function
+
+(Replace constructor with factory method) With polymorphism.
+
+## Replace type code with subclasses
+
+
+## Replace type code with state/strategy
+
+
+## Replace subclass with fields
+
+
+## Replace conditional with polymorphism
+
+
+## Introduce null object
+
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js"></script><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
