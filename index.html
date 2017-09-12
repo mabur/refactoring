@@ -64,6 +64,32 @@ The same constant value appears at multiple places. Extract a constant variable 
 
 A temporary variable is assigned to more than once, and it is not a loop variable. Then make a new temporary variable for each assignment and make the variables immutable. Give each variable a descriptive name. The reverse refactoring could be used for optimizing memory usage for large objects.
 
+## Make variable immutable
+
+<details>
+<summary>C++ Example</summary>
+**Before**
+```cpp
+Image render(Camera& camera, std::vector<Light>& lights, std::vector<Mesh>& meshes);
+```
+**After**
+```cpp
+Image render(Camera& camera, const std::vector<Light>& lights, const std::vector<Mesh>& meshes);
+```
+</details>
+<details>
+<summary>Python Example</summary>
+**Before**
+```python
+def render(camera: Camera, lights: List[Light], meshes: List[Mesh]) -> Image:
+```
+**Python Example After**
+```python
+def render(camera: Camera, lights: Sequence[Light], meshes: Segquence[Mesh]) -> Image:
+
+```
+</details>
+
 
 # Control Structures
 
