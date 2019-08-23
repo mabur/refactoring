@@ -1,0 +1,218 @@
+<html>
+<head>
+	<title>Table</title>
+	<style>
+		td              {font-family: arial; color: #fff; padding: 5px }
+		tr.header       {font-weight: bold; }
+
+		td.symbols      {background-color: #999 }
+		td.variables    {background-color: #765 }
+		td.functions    {background-color: #383 }
+		td.types        {background-color: #399 }
+		td.polymorphism {background-color: #36c }
+		td.files        {background-color: #969 }
+		td.directories  {background-color: #c44 }
+
+		td.control  {background-color: #666 }
+		td.tests    {background-color: #666 }
+	</style>
+</head>
+<body>
+	<table>
+		<tr class=header>
+			<td class=symbols>      Symbols      </td>
+			<td class=variables>    Variables    </td>
+			<td class=functions>    Functions    </td>
+			<td class=types>        Types        </td>
+			<td class=polymorphism> Polymorphism </td>
+			<td class=files>        Files        </td>
+			<td class=directories>  Directories  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      Rename </td>
+			<td class=variables>    Rename variable </td>
+			<td class=functions>    Rename function </td>
+			<td class=types>        Rename type </td>
+			<td class=polymorphism> Rename interface </td>
+			<td class=files>        Rename file </td>
+			<td class=directories>  Rename directory </td>
+		</tr>
+		<tr>
+			<td class=symbols>      Extract / Inline </td>
+			<td class=variables>    Extract / Inline variable </td>
+			<td class=functions>    Extract / Inline function </td>
+			<td class=types>        Extract / Inline type </td>
+			<td class=polymorphism> Extract interface </td>
+			<td class=files>        Extract / Inline file </td>
+			<td class=directories>  Extract / Inline directory </td>
+		</tr>
+		<tr>
+			<td class=symbols>      Remove / Add</td>
+			<td class=variables>    Remove / Add variable </td>
+			<td class=functions>    Remove / Add function </td>
+			<td class=types>        Remove / Add type </td>
+			<td class=polymorphism> Remove / Add interface </td>
+			<td class=files>        Remove / Add file </td>
+			<td class=directories>  Remove / Add directory </td>
+		</tr>
+		<tr>
+			<td class=symbols>      Move </td>
+			<td class=variables>    Move variable </td>
+			<td class=functions>    Move function </td>
+			<td class=types>        Move type </td>
+			<td class=polymorphism> Move interface </td>
+			<td class=files>        Move file </td>
+			<td class=directories>  Move directory </td>
+		</tr>
+		<tr>
+			<td class=symbols>      Hide </td>
+			<td class=variables>    Hide variable </td>
+			<td class=functions>    Hide function </td>
+			<td class=types>        Hide type </td>
+			<td class=polymorphism> Hide interface </td>
+			<td class=files>        Hide file </td>
+			<td class=directories>  Hide directory </td>
+		</tr>
+		<tr>
+			<td class=symbols>      Re-use / duplicate </td>
+			<td class=variables>    Re-use / duplicate variable </td>
+			<td class=functions>    Re-use / duplicate function </td>
+			<td class=types>        Re-use / duplicate type </td>
+			<td class=polymorphism> Re-use / duplicate interface </td>
+			<td class=files>        Re-use / duplicate function </td>
+			<td class=directories>  Re-use / duplicate directory </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Encapsulate mutable variable </td>
+			<td class=types>        Make type/variable immutable/mutable </td>
+			<td class=polymorphism> Replace inheritance with composition</td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Separate query and modifier </td>
+			<td class=types>        Get data via function </td>
+			<td class=polymorphism> Add factory function</td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Replace parameter with function / Parameterize function </td>
+			<td class=types>        Set data via function </td>
+			<td class=polymorphism> Replace type codes with subclasses / Replace conditional with polymorphism </td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Encapsulate mutable variable in conditional</td>
+			<td class=types>        Hide/remove delegate </td>
+			<td class=polymorphism> Replace subclass with fields </td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Encapsulate mutable variable in loop</td>
+			<td class=types>        Add/remove constructor </td>
+			<td class=polymorphism> Add null object / special case </td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Remove control flag </td>
+			<td class=types>        Add/remove destructor </td>
+			<td class=polymorphism> Replace custom type with standard container/collection </td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Replace nested conditionals with guard clauses </td>
+			<td class=types>        Reduce state space </td>
+			<td class=polymorphism> Replace custom loop with standard algorithm/pipeline/higher order function (reverse dicts python)</td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Move fragment to caller/called </td>
+			<td class=types>        Replace constructor with factory function  </td>
+			<td class=polymorphism> </td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+		<tr>
+			<td class=symbols>      </td>
+			<td class=variables>    </td>
+			<td class=functions>    Replace loop with recursion </td>
+			<td class=types>        Replace integer/string with enum </td>
+			<td class=polymorphism> </td>
+			<td class=files>        </td>
+			<td class=directories>  </td>
+		</tr>
+	</table>
+	<table>
+		<tr class=header>
+			<td class=control> Control Flow </td>
+			<td class=tests>   Tests </td>
+		</tr>
+		<tr>
+			<td class=control> Decompose conditional </td>
+			<td class=tests>   Add compile time error detection </td>
+		</tr>
+		<tr>
+			<td class=control> Consolidate conditional expression </td>
+			<td class=tests>   Add compile time warning </td>
+		</tr>
+		<tr>
+			<td class=control> Consolidate duplicated conditional fragment </td>
+			<td class=tests>   Add static analyzer </td>
+		</tr>
+		<tr>
+			<td class=control> Change loop/conditional construct </td>
+			<td class=tests>   Add linter </td>
+		</tr>
+		<tr>
+			<td class=control> Scope based resource management </td>
+			<td class=tests>   Add stronger type check </td>
+		</tr>
+		<tr>
+			<td class=control> Error code, Optional, Exception </td>
+			<td class=tests>   Make object immutable </td>
+		</tr>
+		<tr>
+			<td class=control>  </td>
+			<td class=tests>   Add assertion </td>
+		</tr>
+		<tr>
+			<td class=control>  </td>
+			<td class=tests>   Add bounds check </td>
+		</tr>
+		<tr>
+			<td class=control>  </td>
+			<td class=tests>   Add null pointer check </td>
+		</tr>
+		<tr>
+			<td class=control>  </td>
+			<td class=tests>   Add unit test </td>
+		</tr>
+		<tr>
+			<td class=control>  </td>
+			<td class=tests>   Add integreation test </td>
+		</tr>
+	</table>
+</body>
+</html>
