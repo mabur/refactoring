@@ -1,0 +1,39 @@
+Tools:
+Add compile time error detection
+Add compile time warning
+Add static analyzer
+Add linter
+Automated test
+
+Add stronger type check
+Reduce state space
+Replace standard collection with custom type.
+Make object immutable
+Add assertion
+Add bounds check
+Add null pointer check
+Add unit test
+Add integration test
+
+Testing pyramid:
+Integration tests
+Unit tests
+Asserts / Exceptions
+Type system
+
+Simple example of testing pyramid
+
+def add2(a, b):
+	ax = a[0]
+	ay = a[1]
+	bx = b[0]
+	by = b[1]
+	x = ax + bx
+	y = ay + by
+	return [x, y]
+
+def mean2(points):
+	x = sum(p[0] for p in points)
+	y = sum(p[1] for p in points)
+	n = len(points)
+	return [x / n, y / n]
