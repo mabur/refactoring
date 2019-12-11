@@ -6,9 +6,15 @@ This document describes various <a href="https://en.wikipedia.org/wiki/Code_refa
 We want to have code that is easy to maintain, i.e. to fix bugs and to add new features. We want to reduce duplication. We want immutability and we do not want side effects. We want to find errors early: 1 when compiling or linting, 2 in automatic tests. Mention asserts and exceptions.
 
 
+Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function
+-------|------|--|-|-|------
+Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function
+Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function
+Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function | Extract/inline function | Add compile time error_detection subsection
+
 # Checks and Tests
 
-Checks tests and are the foundation for doing other refactorings without introducing bugs. They are used to find errors by the programmer. After each small change that we make we want to quickly be able to run the checks and tests, so that we can find errors as soon as they happen.
+Checks and tests are the foundation for doing other refactorings without introducing bugs. They are used to find errors by the programmer. After each small change that we make we want to quickly be able to run the checks and tests, so that we can find potential errors at the moment that they are accidentaly introduced.
 
 ## Add compile time error_detection
 
@@ -40,17 +46,15 @@ Can also use references in C++ to avoid this problem completely.
 
 # Variables
 
-Variables are the fundamental building blocks of code. The following refactorings can be used to make the code more readable.
+Variables are the fundamental building blocks of code. The following refactorings can be used to make the code more readable and maintanable.
 
 ## Remove unused variable
 
+## Rename variable
 
 ## Move variable
 
 Is easier if the variable itself, and the other variables that it is computed from, are all immutable.
-
-## Rename variable
-
 
 ## Extract Constant Variable
 
@@ -85,7 +89,7 @@ def render(camera: Camera, lights: List[Light], meshes: List[Mesh]) -> Image:
 ```
 **Python Example After**
 ```python
-def render(camera: Camera, lights: Sequence[Light], meshes: Segquence[Mesh]) -> Image:
+def render(camera: Camera, lights: Sequence[Light], meshes: Sequence[Mesh]) -> Image:
 
 ```
 </details>
@@ -242,13 +246,14 @@ In object oriented programming we use constructors and destructors to make sure 
 
 Use a function or method to access the data stored in an object. This is useful if the data has some invariance. It is also useful if we want to hide the data representation so that we depend less on it. If we depend less on it then it is easier to change the actual representation. This is a useful for refactoring for carrying out other refactorings.
 
-## Hide Delegate
+## Hide Delegate / Remove Middleman
 
 This is useful for procedural and data oriented programming also. Useful tool when doing other refactorings also. The main idea is object oriented, even if it can be nicely implemented with free functions.
-
-## Remove Middleman
-
-This is useful for procedural and data oriented programming also. Useful tool when doing other refactorings also. The main idea is object oriented, even if it can be nicely implemented with free functions.
+````python
+f = camera.intrinsics.get_focal_length()
+f = camera.get_focal_length()
+```
+The reverse of hide delegate is called remove middleman.
 
 ## Replace function with function object
 
