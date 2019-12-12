@@ -78,7 +78,7 @@ content = {
         'Custom type / Generic collection',
         'Custom loop / Generic algorithm' + CONTROL,
         'Switch cases or conditionals / Polymorphism' + CONTROL,
-        'Conditionals for special case / Add null object' + CONTROL,
+        'Conditionals for special case / Polymorphic null object' + CONTROL,
         #'Replace subclass with fields',
         #'Add unused factory function',
     ],
@@ -156,11 +156,12 @@ def _draw_arrows(drawing, x, y, h, a):
 
 
 FONT_CAPTION = {
-    'font_size': '2.0em',
+    'font_size': '2.2em',
     'font-family': 'Lato',# 'Noto Sans',#'Noto Sans', #'Merriweather', #'Playfair Display',#'Merriweather', 'Oxygen Mono'
     'fill': 'black',
     #'font_weight': 'bold',
-    'letter-spacing': '5px'
+    'text-anchor': 'middle',
+    'letter-spacing': '5px',
 }
 
 FONT = {
@@ -193,7 +194,7 @@ DIVIDER = 0
 ARROW_OFFSET_X = +DX * 0.2
 ARROW_OFFSET_Y = -DY * 0.5
 
-CAPTION_OFFSET_X = 20
+CAPTION_OFFSET_X = DX / 2 #20
 CAPTION_OFFSET_Y = -DY + 45
 
 RADIUS = 7
