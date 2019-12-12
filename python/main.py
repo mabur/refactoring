@@ -173,12 +173,12 @@ FONT = {
 FONTS = [FONT, FONT_CAPTION]
 
 COLOR_FROM_CATEGORY = {
-    'Variables': '#42bdc5',
-    'Functions': '#fccc8b',
-    'Types': '#7cc161',
-    'Polymorphism': '#ef7f8e',
-    'Files': '#6674b6',
-    'Directories': '#1f2547',
+    'Variables': '#1f2547',
+    'Functions': '#42bdc5',
+    'Types': '#fccc8b',
+    'Polymorphism': '#7cc161',
+    'Files': '#ef7f8e',
+    'Directories': '#6674b6',
 }
 
 DX = 350
