@@ -141,9 +141,10 @@ def _draw_arrows(drawing, x, y, h, a):
 
 FONT_CAPTION = {
     'font_size': '2.0em',
-    'font-family': 'Oxygen Mono', #'Merriweather', #'Playfair Display',#'Merriweather',
+    'font-family': 'Lato',# 'Noto Sans',#'Noto Sans', #'Merriweather', #'Playfair Display',#'Merriweather', 'Oxygen Mono'
     'fill': 'black',
     #'font_weight': 'bold',
+    'letter-spacing': '5px'
 }
 
 FONT = {
@@ -195,7 +196,7 @@ for category_name, refactorings in content.items():
     current_height = DY * len(refactorings)
     _draw_line_vertical(drawing, x=x, y=Y_START, h=max(current_height, last_height))
     last_height = current_height
-    _draw_text(drawing, category_name, x + CAPTION_OFFSET_X, y + CAPTION_OFFSET_Y, **FONT_CAPTION)
+    _draw_text(drawing, category_name.upper(), x + CAPTION_OFFSET_X, y + CAPTION_OFFSET_Y, **FONT_CAPTION)
     _draw_line_horizontal(drawing, x=x, y=y, w=DX)
     y += DY
     for refactoring in refactorings:
