@@ -37,3 +37,16 @@ def mean2(points):
 	y = sum(p[1] for p in points)
 	n = len(points)
 	return [x / n, y / n]
+
+CATEGORIES
+* Inline    IN  > <
+* Extract   EX  < >
+* Move      M   -->
+* Rename    R   ABC
+* Add       A    +
+* Remove    R    -
+* Hide      H   ( )
+* Re-use    R   ...
+* Duplicate D   ...
+* Control flow  JMP IF LOOP GOTO FLOW ~
+* Test, check, assert, verification T TEST CHECK
