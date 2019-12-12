@@ -45,7 +45,7 @@ content = {
         'Explicit loop / Recursion' + CONTROL,
         'Nested conditionals / Guard clauses' + CONTROL,
         'Errors as return values / Exceptions' + CONTROL,
-        'Remove mutable control flag' + CONTROL,
+        'Mutable control flag / Function that returns directly' + CONTROL,
         'Encapsulate mutable variable' + STATE_SPACE,
         'Check pre-condition' + STATE_SPACE,
         'Check post-condition' + STATE_SPACE,
@@ -75,7 +75,7 @@ content = {
         'Remove unused interface / Add unused interface' + REMOVE_ADD,
         'Public interface / Private interface' + VISIBILITY,
         'Inheritance / Composition',
-        'Custom type / Generic collection',
+        'Custom type / Generic collection' + STATE_SPACE,
         'Custom loop / Generic algorithm' + CONTROL,
         'Switch cases or conditionals / Polymorphism' + CONTROL,
         'Conditionals for special case / Polymorphic null object' + CONTROL,
@@ -183,13 +183,13 @@ COLOR_FROM_CATEGORY = {
 
 DX = 350
 DY = 80
-DY_LINE = 45
+DY_LINE = 36
 X_START = 30
 Y_START = 100
 TEXT_OFFSET_X = 20
-TEXT_OFFSET_Y = -DY + 22
-CIRCLE_OFFSET_X = DX - 20
-CIRCLE_OFFSET_Y = -DY + 20 #-DY + 20
+TEXT_OFFSET_Y = -DY + 27
+CIRCLE_OFFSET_X = DX - 22
+CIRCLE_OFFSET_Y = -DY + 22 #-DY + 20
 DIVIDER = 0
 ARROW_OFFSET_X = +DX * 0.2
 ARROW_OFFSET_Y = -DY * 0.5
@@ -197,7 +197,7 @@ ARROW_OFFSET_Y = -DY * 0.5
 CAPTION_OFFSET_X = DX / 2 #20
 CAPTION_OFFSET_Y = -DY + 45
 
-RADIUS = 7
+RADIUS = 9
 
 x = X_START
 last_height = 0
@@ -225,7 +225,7 @@ for category_name, refactorings in content.items():
 
         for special_string in SPECIAL_STRINGS:
             if special_string in refactoring:
-                _draw_text(drawing, special_string, x=x + CIRCLE_OFFSET_X - 16, y=y + TEXT_OFFSET_Y + DY_LINE, **FONT)
+                _draw_text(drawing, special_string, x=x + CIRCLE_OFFSET_X - 14, y=y + TEXT_OFFSET_Y + DY_LINE, **FONT)
 
         if len(lines) < 2:
             _draw_text(drawing, lines[0], x=x + TEXT_OFFSET_X, y=y + TEXT_OFFSET_Y + DY_LINE / 2, **FONT)
