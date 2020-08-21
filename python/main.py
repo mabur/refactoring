@@ -95,6 +95,12 @@ content = {
         'Extract directory / Inline directory' + EXTRACT_INLINE,
         'Remove unused directory / Add unused directory' + REMOVE_ADD,
         'Visible directory / Hidden directory' + VISIBILITY,
+    ],
+    'Programs': [
+        'Move program' + MOVE,
+        'Rename program' + RENAME,
+        'Extract program / Inline program' + EXTRACT_INLINE,
+        'Remove unused program / Add unused program' + REMOVE_ADD,
     ]
 }
 
@@ -159,8 +165,7 @@ FONT_CAPTION = {
     'font_size': '2.2em',
     'font-family': 'Lato',# 'Noto Sans',#'Noto Sans', #'Merriweather', #'Playfair Display',#'Merriweather', 'Oxygen Mono'
     'fill': 'black',
-    #'font_weight': 'bold',
-    'text-anchor': 'middle',
+    'text-anchor': 'start',
     'letter-spacing': '5px',
 }
 
@@ -179,6 +184,7 @@ COLOR_FROM_CATEGORY = {
     'Polymorphism': '#7cc161',
     'Files': '#ef7f8e',
     'Directories': '#6674b6',
+    'Programs': '#1f2547',
 }
 
 DX = 350
@@ -194,7 +200,7 @@ DIVIDER = 0
 ARROW_OFFSET_X = +DX * 0.2
 ARROW_OFFSET_Y = -DY * 0.5
 
-CAPTION_OFFSET_X = DX / 2 #20
+CAPTION_OFFSET_X = TEXT_OFFSET_X
 CAPTION_OFFSET_Y = -DY + 45
 
 RADIUS = 9
