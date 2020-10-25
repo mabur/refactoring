@@ -44,7 +44,7 @@ content = {
         'Separate query and modifier',
         'Explicit loop / Recursion' + CONTROL,
         'Nested conditionals / Guard clauses' + CONTROL,
-        'Errors as return values / Exceptions' + CONTROL,
+        'Errors codes or sum types / Exceptions' + CONTROL,
         'Mutable control flag / Function that returns directly' + CONTROL,
         'Encapsulate mutable variable' + STATE_SPACE,
         'Check pre-condition' + STATE_SPACE,
@@ -77,7 +77,7 @@ content = {
         'Inheritance / Composition',
         'Custom type / Generic collection' + STATE_SPACE,
         'Custom loop / Generic algorithm' + CONTROL,
-        'Switch cases or conditionals / Polymorphism' + CONTROL,
+        'Conditionals or pattern matching / Polymorphism' + CONTROL,
         'Conditionals for special case / Polymorphic null object' + CONTROL,
         #'Replace subclass with fields',
         #'Add unused factory function',
@@ -187,7 +187,7 @@ COLOR_FROM_CATEGORY = {
     'Programs': '#1f2547',
 }
 
-DX = 350
+DX = 370
 DY = 80
 DY_LINE = 36
 X_START = 30
